@@ -1,0 +1,25 @@
+public SaveMp3(byte[] leavingMassege){
+		/*
+		 * 获取手机SD卡存储路径，要添加可读取和存储内存的权限
+		 *<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+     *<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+		 */
+		String path = Environment.getExternalStorageDirectory()+"/lMassege.mp3";
+		File file = new File(path);
+		
+		if(Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())){
+			
+			try {
+				FileOutputStream fileOutputStream = new FileOutputStream(file);
+				fileOutputStream.write(leavingMassege);
+				fileOutputStream.close();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+	}
