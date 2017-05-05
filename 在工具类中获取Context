@@ -1,0 +1,1 @@
+可以在Activisty中实例化工具类是把Activity.this作为参数传递给工具类，在工具类中就可以使用context
