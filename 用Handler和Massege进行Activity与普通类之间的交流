@@ -1,0 +1,37 @@
+在activity类中设成员变量Handler m_handle = null;
+并设有处理Massege的方法
+public void handle_msg(){
+		m_handle = new Handler(){
+			@Override
+			public void handleMessage(Message msg) {
+				// TODO 自动生成的方法存根
+				super.handleMessage(msg);
+				switch (msg.what) {
+				case CALLIN:
+					m_msg.setText("host正在呼叫");
+					break;
+				case TALKING:
+					m_msg.setText("正在通话中");
+					break;
+				case HANGUP_IN:
+					m_msg.setText("对方已挂机");
+					break;
+				case HANGUP_OUT:
+	
+					break;
+				case Reciever_LeavingMassege:
+					m_msg.setText("收到留言");
+					break;
+				case RESER_LISTVIEW:
+					initList();
+				default:
+					break;
+				}
+			}
+			
+		};
+一般可用于更新UI，然后把m_handle作为参数传给普通类就可以了，即作为实例化该类的参数
+最后在该类中用m_handle的sendmassege就可以了
+Message m_msg = new Message();
+			m_msg.what = MainActivity.Reciever_LeavingMassege;
+		    m_handle.sendMessage(m_msg);
