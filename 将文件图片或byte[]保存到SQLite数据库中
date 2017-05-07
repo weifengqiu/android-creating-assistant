@@ -1,0 +1,12 @@
+主要的思路是将文件或图片转换为byte[]
+BLOB - The value is a blob of data, stored exactly as it was input.（BLOB数据不做任何转换，以输入形式存储。）
+存储在数据库中的数据类型是blob
+数据库：db.execSQL
+("Create table express ( _id INTEGER PRIMARY KEY AUTOINCREMENT,express_no varchar(100),express_name TEXT,express_img BLOB );");
+图片：bitmap 变为 Blob 
+final ByteArrayOutputStream os = new ByteArrayOutputStream();   
+bmp.compress(Bitmap.CompressFormat.PNG, 100, os);    
+values.put("express_img", os.toByteArray());//存入
+从SQLite中读取Bitmap 
+byte[] in=cur.getBlob(cur.getColumnIndex("express_img"));  
+bmpout=BitmapFactory.decodeByteArray(in,0,in.length); 
