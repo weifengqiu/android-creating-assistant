@@ -1,0 +1,11 @@
+private long lastClickTime;
+    @Override
+    public void onBackPressed() {
+        long nowTime = System.currentTimeMillis();
+        if (nowTime - lastClickTime < 1000) {
+            moveTaskToBack(true);
+        } else {
+            lastClickTime = nowTime;
+            Toast.makeText(MainCalendarActivity.this, "再按一次返回键回到桌面", Toast.LENGTH_SHORT).show();
+        }
+    }
