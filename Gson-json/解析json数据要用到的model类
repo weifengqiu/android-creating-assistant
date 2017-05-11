@@ -1,0 +1,32 @@
+//这里的modle可能有多个，取决于json数据的层数
+public class GsonWeather {
+    /**{"success":"1",
+     * "result":
+     * {"weaid":"165","days":"2017-03-27","week":"星期一","cityno":"guangzhou","citynm":"广州",
+     "cityid":"101280101","temperature":"23℃/14℃","temperature_curr":"22℃","humidity":"40%","weather":"多云",
+     "weather_curr":"晴","weather_icon":"http://api.k780.com:88/upload/weather/d/0.gif","weather_icon1":"",
+     "wind":"南风","winp":"2级","temp_high":"23","temp_low":"14","temp_curr":"22","humi_high":"0","humi_low":"0",
+     "weatid":"1","weatid1":"","windid":"5","winpid":"203"}}*/
+     
+     //注意这里成员变量的命名要与json数据中的一致
+    private String success;
+    private WeatherToday result;
+
+    public String getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(String success) {
+        this.success = success;
+    }
+
+    public WeatherToday getWeatherToday() {
+        return result;
+    }
+
+    public void setWeatherToday(WeatherToday weatherToday) {
+        this.result = weatherToday;
+    }
+
+
+}
