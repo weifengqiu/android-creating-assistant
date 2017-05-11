@@ -1,0 +1,13 @@
+
+public class HandleWeatherResponseUtils {
+
+//使用Gson解析是要导入辅助包的
+    public synchronized static WeatherToday handleWeatherResponce(String response){//response是json数据
+        Gson gson=new Gson();
+        GsonWeather gsonWeather=gson.fromJson(response,GsonWeather.class);
+        WeatherToday weatherToday=null;
+        weatherToday= gsonWeather.getWeatherToday();
+        return weatherToday;
+
+    }
+}
