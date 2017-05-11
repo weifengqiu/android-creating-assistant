@@ -15,6 +15,12 @@ public class HttpUtil {
                     URL url = new URL(address);
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("GET");
+                    /*
+                     *如果是向服务器上传数据就用
+                     *connection.setRequestMethod("POST");
+                     *DataOutputStream out = new DataOutputStream(connection.getOutputStream());
+                     *out.writeBytes("dsd");
+                     */
                     connection.setConnectTimeout(8000);
                     connection.setReadTimeout(8000);
                     connection.setDoInput(true);
