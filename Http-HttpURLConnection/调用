@@ -1,0 +1,26 @@
+String urls = "http://api.k780.com:88/?app=weather.today&weaid=广州&appkey=10003&sign=b59bc3ef6191eb9f747dd4e83c99f2a4&format=json";
+        HttpUtil.sendHttpRequest(urls, new HttpCallBackListener(){
+            @Override
+            //处理得到的信息
+            public void onFinish(String response) {
+                if (!TextUtils.isEmpty(response)){
+                    try {
+                        weatherToday= HandleWeatherResponseUtils.handleWeatherResponce(response);
+                        Message msg = new Message();
+                        myHandler.sendMessage(msg);
+                    }catch (Exception e){
+                        onError(e);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(WeatherActivity.this, "请检查手机网络", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
