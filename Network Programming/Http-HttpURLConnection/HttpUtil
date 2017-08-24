@@ -1,0 +1,52 @@
+/**
+ * Created by qiu on 2017/3/27.
+ * 这个是用于向服务端发送接口，然后得到返回的数据
+ * 因为子线程无法返回response数据，所以用回调的方法
+ */
+
+public class HttpUtil {
+
+    public static void sendHttpRequest(final String address, final HttpCallBackListener listener){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HttpURLConnection connection = null;
+                try {
+                    URL url = new URL(address);
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    /*
+                     *如果是向服务器上传数据就用
+                     *connection.setRequestMethod("POST");
+                     *DataOutputStream out = new DataOutputStream(connection.getOutputStream());
+                     *out.writeBytes("dsd");
+                     */
+                    connection.setConnectTimeout(8000);
+                    connection.setReadTimeout(8000);
+                    connection.setDoInput(true);
+                    connection.setDoOutput(true);
+                    InputStream in = connection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
+                    if (listener != null) {
+                        // 回调onFinish()方法
+                        listener.onFinish(response.toString());
+                    }
+                }catch (Exception e){
+                    if (listener != null) {
+                        // 回调onError()方法
+                        listener.onError(e);
+                    }
+                }finally {
+                    if (connection != null) {
+                        connection.disconnect();
+                    }
+                }
+            }
+        }).start();
+    }
+}
