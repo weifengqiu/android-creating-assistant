@@ -1,0 +1,21 @@
+try {
+      /*
+        in为输入流，count为输入流的字节数，读取输入流的字节数直到可以确认为整个输入流的字节数
+      */
+				count = 0;
+				while (count < 106*1024) {  
+			        count = in.available();  
+			        AceDubug.dubug_info_d("*****留言有："+count+"个字节******");
+			    }  
+			     leavingMassege = new byte[count];  
+			    int readCount = 0; // 已经成功读取的字节的个数  
+			    while (readCount < count) {  
+			        readCount += in.read(leavingMassege, readCount, count - readCount); 
+			        AceDubug.dubug_info_d("*****已转移："+readCount+"个字节******");
+			    }  
+			    
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				AceDubug.dubug_info_d("读取留言失败");
+			}
