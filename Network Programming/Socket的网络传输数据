@@ -1,2 +1,27 @@
-
-android-creating-assistant/Socket的网络传输数据
+//基于TCP
+//1、发送
+Socket m_socket = new Socket(rc_ip, port_1);
+			OutputStream m_out = m_socket.getOutputStream();
+      m_out.write(bytes[]);
+			m_out.flush();
+//2、接收
+ ServerSocket server_socket_18022 = new ServerSocket(port_1);
+ while(true){
+			try {
+				socket_18022 = server_socket_18022.accept();
+				InputStream in = socket_18022.getInputStream();
+        in.read(bytes[]);
+        }catch{
+        }
+//基于UDP
+//1.发送
+DatagramSocket m_socket = new DatagramSocket();
+DatagramPacket m_packet = new DatagramPacket(bytes[], bytes.length, IP, port);
+m_socket.send(m_packet);
+m_socket.close();
+//2、接收
+DatagramPacket recePack_6672 = new DatagramPacket(bytes[], bytes.length);
+DatagramSocket hostSocket_6672 = new DatagramSocket(port);
+while(true){
+hostSocket_6672.receive(recePack_6672);
+}
