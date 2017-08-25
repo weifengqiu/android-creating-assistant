@@ -32,3 +32,6 @@ webRTC
 ffmpeg 
 vlc 
 ijkplayer
+
+硬解，用自带播放器播放，android中的VideoView
+软解，使用音视频解码库，比如FFmpeg
