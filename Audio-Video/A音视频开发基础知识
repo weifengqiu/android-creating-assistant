@@ -1,0 +1,34 @@
+流媒体 指采用流式传输的方式在Internet / Intranet播放的媒体格式.
+
+分辨率 “每英寸像素”（ppi）
+
+码流 数据传输时单位时间传送的数据位数，单位是kbps即千位每秒
+
+帧率 可理解为1秒钟时间里刷新的图片的帧数，也可以理解为图形处理器每秒钟能够刷新几次，也就是指每秒钟能够播放（或者录制）多少格画面。
+
+多媒体的格式分类：
+    MPEG   MPEG Audio Layer 3 :大名鼎鼎的 MP3  MPEG-4(Mp4)  MKV  3GP（3GP其实是MP4格式的一种简化版本,是手机视频格式的绝对主流）
+    MOV    AVI    WAV 
+    
+流媒体协议(RTP（udp） RTCP RTSP RTMP HLS)    
+
+android音视频的开发：
+播放流程: 获取流–>解码–>播放 
+录制播放路程: 录制音频视频–>剪辑–>编码–>上传服务器 别人播放. 
+直播过程 : 录制音视频–>编码–>流媒体传输–>服务器—>流媒体传输到其他app–>解码–>播放
+
+几个重要的环节：
+录制音视频 AudioRecord/MediaRecord
+视频剪辑 mp4parser 或ffmpeg
+音视频编码 aac&h264
+上传大文件 网络框架,进度监听,断点续传
+流媒体传输 流媒体传输协议rtmp rtsp hls
+渲染播放 MediaPlayer
+
+android平台自身支持的音视频解码是有限的 一般的mp3 mp4….3gp 等等 其他的只能自己解码了。。。 
+编解码第三方框架:
+vitamio 
+webRTC 
+ffmpeg 
+vlc 
+ijkplayer
