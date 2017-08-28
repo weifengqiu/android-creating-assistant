@@ -1,0 +1,36 @@
+wav 格式，与 bitmap 一样，都是微软开发的一种文件格式规范，它们都有一个相似之处，就是整个文件分为两部分，第一部分是“文件头”，记录重要的参数信息，
+对于音频而言，就包括：采样率、通道数、位宽等等，对于图像而言，
+就包括：图像的宽高、色彩位数等等；第二部分是“数据块”，即一帧一帧的二进制数据，对于音频而言，就是原始的 PCM 数据；对于图像而言，就是 RGB 数据。
+
+1. 文件头，参考：http://soundfile.sapp.org/doc/WaveFormat/
+具体而言，我们可以定义一个如下的 Java 类来抽象和描述 wav 文件头：
+public class WavFileHeader {    
+    
+    public String mChunkID = "RIFF";
+    public int mChunkSize = 0;    
+    public String mFormat = "WAVE";
+ 
+    public String mSubChunk1ID = "fmt ";
+    public int mSubChunk1Size = 16;
+    public short mAudioFormat = 1;    
+    public short mNumChannel = 1;
+    public int mSampleRate = 8000;
+    public int mByteRate = 0;
+    public short mBlockAlign = 0;
+    public short mBitsPerSample = 8;
+ 
+    public String mSubChunk2ID = "data";
+    public int mSubChunk2Size  = 0;
+     
+    public WavFileHeader() {
+         
+    }
+     
+    public WavFileHeader(int sampleRateInHz, int bitsPerSample, int channels) {          
+        mSampleRate = sampleRateInHz;
+        mBitsPerSample = (short)bitsPerSample;
+        mNumChannel = (short)channels;                
+        mByteRate = mSampleRate*mNumChannel*mBitsPerSample/8;
+        mBlockAlign = (short)(mNumChannel*mBitsPerSample/8);
+    }
+}
