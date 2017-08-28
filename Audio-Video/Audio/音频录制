@@ -1,0 +1,160 @@
+录制过程：
+   Android SDK 提供了两套音频采集的API，分别是：MediaRecorder 和 AudioRecord，前者是一个更加上层一点的API，它可以直接把手机麦克风录入
+   的音频数据进行编码压缩（如AMR、MP3等）并存成文件，而后者则更接近底层，能够更加自由灵活地控制，可以得到原始的一帧帧PCM音频数据。
+   
+   如果想简单地做一个录音机，录制成音频文件，则推荐使用 MediaRecorder，而如果需要对音频做进一步的算法处理、或者采用第三方的编码库进行压缩、
+   以及网络传输等应用，则建议使用 AudioRecord，其实 MediaRecorder 底层也是调用了 AudioRecord 与 Android Framework 层的 AudioFlinger 进行交互的。
+   
+   1. AudioRecord 的工作流程
+    首先，我们了解一下 AudioRecord 的工作流程：
+    （1） 配置参数，初始化内部的音频缓冲区
+    （2） 开始采集
+    （3） 需要一个线程，不断地从 AudioRecord 的缓冲区将音频数据“读”出来，注意，这个过程一定要及时，否则就会出现“overrun”的错误，该错误在音频开发中比较常见，意味着应用层没有及时地“取走”音频数据，导致内部的音频缓冲区溢出。
+    （4） 停止采集，释放资源
+    
+    demo:
+    
+    /*
+ *  COPYRIGHT NOTICE  
+ *  Copyright (C) 2016, Jhuster <lujun.hust@gmail.com>
+ *  https://github.com/Jhuster/Android
+ *   
+ *  @license under the Apache License, Version 2.0 
+ *
+ *  @file    AudioCapturer.java
+ *  
+ *  @version 1.0     
+ *  @author  Jhuster
+ *  @date    2016/03/10    
+ */
+package com.jhuster.audiodemo;
+
+import android.media.AudioFormat;
+import android.media.AudioRecord;
+import android.media.MediaRecorder;
+import android.os.SystemClock;
+import android.util.Log;
+
+public class AudioCapturer {
+
+    private static final String TAG = "AudioCapturer";
+	
+    private static final int DEFAULT_SOURCE = MediaRecorder.AudioSource.MIC;
+    private static final int DEFAULT_SAMPLE_RATE = 44100;
+    private static final int DEFAULT_CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_STEREO;
+    private static final int DEFAULT_AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;
+
+    private AudioRecord mAudioRecord;
+    private int mMinBufferSize = 0;
+	
+    private Thread mCaptureThread; 	
+    private boolean mIsCaptureStarted = false;
+    private volatile boolean mIsLoopExit = false;
+
+    private OnAudioFrameCapturedListener mAudioFrameCapturedListener;
+
+    public interface OnAudioFrameCapturedListener {
+        public void onAudioFrameCaptured(byte[] audioData);
+    }	
+
+    public boolean isCaptureStarted() {		
+        return mIsCaptureStarted;
+    }
+
+    public void setOnAudioFrameCapturedListener(OnAudioFrameCapturedListener listener) {
+        mAudioFrameCapturedListener = listener;
+    }
+
+    public boolean startCapture() {
+        return startCapture(DEFAULT_SOURCE, DEFAULT_SAMPLE_RATE, DEFAULT_CHANNEL_CONFIG,
+            DEFAULT_AUDIO_FORMAT);
+    }
+
+    public boolean startCapture(int audioSource, int sampleRateInHz, int channelConfig, int audioFormat) {
+
+        if (mIsCaptureStarted) {
+            Log.e(TAG, "Capture already started !");
+            return false;
+        }
+    
+        mMinBufferSize = AudioRecord.getMinBufferSize(sampleRateInHz,channelConfig,audioFormat);
+        if (mMinBufferSize == AudioRecord.ERROR_BAD_VALUE) {
+            Log.e(TAG, "Invalid parameter !");
+            return false;
+        }
+        Log.d(TAG , "getMinBufferSize = "+mMinBufferSize+" bytes !");
+		
+        mAudioRecord = new AudioRecord(audioSource,sampleRateInHz,channelConfig,audioFormat,mMinBufferSize);				
+        if (mAudioRecord.getState() == AudioRecord.STATE_UNINITIALIZED) {
+    	    Log.e(TAG, "AudioRecord initialize fail !");
+    	    return false;
+        }		
+
+        mAudioRecord.startRecording();
+
+        mIsLoopExit = false;
+        mCaptureThread = new Thread(new AudioCaptureRunnable());
+        mCaptureThread.start();
+
+        mIsCaptureStarted = true;
+
+        Log.d(TAG, "Start audio capture success !");
+
+        return true;
+    }
+
+    public void stopCapture() {
+
+        if (!mIsCaptureStarted) {
+            return;
+        }
+
+        mIsLoopExit = true;		
+        try {
+            mCaptureThread.interrupt();
+            mCaptureThread.join(1000);
+        } 
+        catch (InterruptedException e) {		
+            e.printStackTrace();
+        }
+
+        if (mAudioRecord.getRecordingState() == AudioRecord.RECORDSTATE_RECORDING) {
+            mAudioRecord.stop();						
+        }
+
+        mAudioRecord.release();		
+	
+        mIsCaptureStarted = false;
+        mAudioFrameCapturedListener = null;
+
+        Log.d(TAG, "Stop audio capture success !");
+    }
+
+    private class AudioCaptureRunnable implements Runnable {		
+	
+        @Override
+        public void run() {
+
+            while (!mIsLoopExit) {
+
+                byte[] buffer = new byte[mMinBufferSize];
+
+                int ret = mAudioRecord.read(buffer, 0, mMinBufferSize);				
+                if (ret == AudioRecord.ERROR_INVALID_OPERATION) {
+                    Log.e(TAG , "Error ERROR_INVALID_OPERATION");
+                } 
+                else if (ret == AudioRecord.ERROR_BAD_VALUE) {
+                    Log.e(TAG , "Error ERROR_BAD_VALUE");
+                } 
+                else { 
+                    if (mAudioFrameCapturedListener != null) {
+                        mAudioFrameCapturedListener.onAudioFrameCaptured(buffer);
+                    }   
+                    Log.d(TAG , "OK, Captured "+ret+" bytes !");
+                }			
+                
+                SystemClock.sleep(10);
+            }		
+        }    
+    }
+}
