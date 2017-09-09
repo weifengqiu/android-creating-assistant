@@ -1,1 +1,15 @@
-
+基本知识：（使用C.C++中的接口函数并编译成so库，用于安卓工程）
+ JNI （Java Native Interface）本地接口
+  通过JNI可以调用用C，C++所编写的本地代码
+ NDK
+  1、NDK是一系列工具的集合。
+   * NDK提供了一系列的工具，帮助开发者快速开发C（或C++）的动态库，并能自动将so和java应用一起打包成apk。这些工具对开发者的帮助是巨大的
+   * NDK集成了交叉编译器，并提供了相应的mk文件隔离平台、
+     CPU、API等差异，开发人员只需要简单修改mk文件（指出“哪些文件需要编译”、“编译特性要求”等），就可以创建出so。
+ 可以直接在Eclipse配置NDK的编译环境（http://blog.csdn.net/dj0379/article/details/50742432），而不必使用Cygwin（在Windows上模拟LInux的命令） 
+ 
+需要四类文件：分别是.c(.cpp) .mk .h
+.c(.cpp) ：这里面是接口的实现
+.mk ：1、Android.mk 里面放的是so库名，要进行编译的c,c++文件
+      2、Application.mk 里面放的是要编译成的so库的CPU框架 ，分别有APP_ABI := armeabi armeabi-v7a x86 mips armeabi-v8a
+.h ：根据声明Java接口的class文件执行javah命令而来的头文件（执行javah命令是要回到src目录下，具体命令为：javah com.qiuwf.speex.类名)
