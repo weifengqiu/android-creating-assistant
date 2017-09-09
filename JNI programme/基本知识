@@ -14,3 +14,6 @@
         Android.mk文件是在使用NDK编译C代码时必须的文件，Android.mk文件中描述了哪些C文件将被编译且指明了如何编译
       2、Application.mk 里面放的是要编译成的so库的CPU框架 ，分别有APP_ABI := armeabi armeabi-v7a x86 mips armeabi-v8a
 .h ：根据声明Java接口的class文件执行javah命令而来的头文件（执行javah命令是要回到src目录下，具体命令为：javah com.qiuwf.speex.类名)
+     这里的头文件是不一定需要的，他的作用是为了方便得到.c文件中的
+     方法名（如jstring Java_com_itheima15_ndk1_MainActivity_helloFromJNI(JNIEnv* env, jobject obj) ），这样就不用自己写了
+     如果没有头文件，就必须在.c文件的每个方法函数前加extern "C"
