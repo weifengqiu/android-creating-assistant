@@ -8,7 +8,7 @@
      CPU、API等差异，开发人员只需要简单修改mk文件（指出“哪些文件需要编译”、“编译特性要求”等），就可以创建出so。
  可以直接在Eclipse配置NDK的编译环境（http://blog.csdn.net/dj0379/article/details/50742432），而不必使用Cygwin（在Windows上模拟LInux的命令） 
  
-需要四类文件：分别是.c(.cpp) .mk .h
+需要四类文件：分别是.c(.cpp) .mk .h（https://www.kancloud.cn/digest/android-jni/108106）
 .c(.cpp) ：这里面是接口的实现
 .mk ：1、Android.mk 里面放的是so库名，要进行编译的c,c++文件
       2、Application.mk 里面放的是要编译成的so库的CPU框架 ，分别有APP_ABI := armeabi armeabi-v7a x86 mips armeabi-v8a
