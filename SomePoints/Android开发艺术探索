@@ -1,0 +1,3 @@
+P17 非Activity类型的Context（如ApplicationContext）并没有所谓的任务栈，所以在我们用ApplicationContext去启动standard模式的Activity时会报错，
+    因为在standard模式中谁启动了Activity，这个Activity就运行在启动他的那个Activity所在的栈中。
+     
