@@ -1,3 +1,8 @@
 P17 非Activity类型的Context（如ApplicationContext）并没有所谓的任务栈，所以在我们用ApplicationContext去启动standard模式的Activity时会报错，
     因为在standard模式中谁启动了Activity，这个Activity就运行在启动他的那个Activity所在的栈中。
      
+     
+第2章 IPC机制     
+     
+      p35 IPC是Inter-Process Communication的缩写，含义为进程间通信；
+          一个进程包含多个线程，在Android中主线程也叫UI线程，在UI线程中才能操作界面元素
