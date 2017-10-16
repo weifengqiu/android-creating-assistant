@@ -6,3 +6,6 @@ P17 非Activity类型的Context（如ApplicationContext）并没有所谓的任�
      
       p35 IPC是Inter-Process Communication的缩写，含义为进程间通信；
           一个进程包含多个线程，在Android中主线程也叫UI线程，在UI线程中才能操作界面元素
+      p42 IPC基础概念介绍
+          包含三个方面的内容：Serializable接口、Parcelable接口、Binder
+          Serializable接口、Parcelable接口可以完成对象的序列化过程，序列化 (Serialization)将对象的状态信息转换为可以存储或传输的形式的过程。
