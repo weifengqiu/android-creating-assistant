@@ -18,4 +18,10 @@ P17 非Activity类型的Context（如ApplicationContext）并没有所谓的任�
           其中普通Service中的Binder不涉及进程间通信。    
       p61 Android中的IPC方式
           a.使用Bundle
-          
+            在Bundle中附加我们需要的传输给远程进程的信息并通过Intent发送出去，这里传输的数据必须能够被序列化。
+          b.使用文件共享
+            通过sd卡中的一个共享文件进行对象的序列化和反序列化的存储和读取。
+            SharedPreferences是Android中提供的轻量级存储方案，在底层实现上他采用xml文件来储存键值对，由于系统对它的读写有一定的缓存策略，
+            即在内存中会有一份SharedPreferences文件的缓存，因此在多进程模式下，系统对它的读写就变得不可靠了，有大几率会丢失数据，不建议在
+            进程间通信中使用SharedPreferences。
+          c.
