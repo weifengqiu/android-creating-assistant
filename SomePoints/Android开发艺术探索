@@ -12,3 +12,6 @@ P17 非Activity类型的Context（如ApplicationContext）并没有所谓的任�
       p46 系统为我们提供了许多实现了Parcelable接口的类，它们都是可以直接序列化的，比如Intent、Bundle、Bitmap等。
       P47 Serializable是Java中的序列化接口，使用简单但开销大，需要大量的I/O操作；
           Parcelable是Android中的序列化方式，因此更适合用在安卓平台上。
+      p47 Binder主要用在Service中，包括AIDL（Android Interface Definition Language,即Android接口定义语言）和Messenger，
+          其中普通Service中的Binder不涉及进程间通信。    
+          
