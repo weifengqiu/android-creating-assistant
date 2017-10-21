@@ -26,5 +26,7 @@ P17 非Activity类型的Context（如ApplicationContext）并没有所谓的任�
             进程间通信中使用SharedPreferences。
           c.使用Messenger
             是一种轻量级的IPC方案，它的底层实现是AIDL，发消息的类型为Message对象。
-          d.使用AIDL
+          d.使用AIDL P71 还没看完
             要创建aidl文件，其中包括接口和方法。
+          e.使用ContentProvider
+            是Android中提供的专门用于不同应用间进行数据共享的方式。
