@@ -24,4 +24,7 @@ P17 非Activity类型的Context（如ApplicationContext）并没有所谓的任�
             SharedPreferences是Android中提供的轻量级存储方案，在底层实现上他采用xml文件来储存键值对，由于系统对它的读写有一定的缓存策略，
             即在内存中会有一份SharedPreferences文件的缓存，因此在多进程模式下，系统对它的读写就变得不可靠了，有大几率会丢失数据，不建议在
             进程间通信中使用SharedPreferences。
-          c.
+          c.使用Messenger
+            是一种轻量级的IPC方案，它的底层实现是AIDL，发消息的类型为Message对象。
+          d.使用AIDL
+            要创建aidl文件，其中包括接口和方法。
