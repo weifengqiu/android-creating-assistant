@@ -6,3 +6,4 @@
 
 GitHubDeskTop的使用方法：
 本地修改后需要Commit to Master后才能push到GitHub服务器中，实现最终的修改
+很多修改都可以直接在本地直接修改再push到GitHub中
