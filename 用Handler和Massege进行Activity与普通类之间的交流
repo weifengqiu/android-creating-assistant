@@ -35,3 +35,4 @@ public void handle_msg(){
 Message m_msg = new Message();
 			m_msg.what = MainActivity.Reciever_LeavingMassege;
 		    m_handle.sendMessage(m_msg);
+![image](http://upload-images.jianshu.io/upload_images/1233754-99792cf977952480.png?imageMogr2/auto-orient/strip)
