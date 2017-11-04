@@ -1,0 +1,32 @@
+P17 非Activity类型的Context（如ApplicationContext）并没有所谓的任务栈，所以在我们用ApplicationContext去启动standard模式的Activity时会报错，
+    因为在standard模式中谁启动了Activity，这个Activity就运行在启动他的那个Activity所在的栈中。
+     
+     
+第2章 IPC机制     
+     
+      p35 IPC是Inter-Process Communication的缩写，含义为进程间通信；
+          一个进程包含多个线程，在Android中主线程也叫UI线程，在UI线程中才能操作界面元
+      p36 Android中的多进程模式：通过给四大组件指定android：process属性，可以开启多进程模式
+          每个进程都分配一个独立的虚拟机，不同的虚拟机在内存分配上有不同的地址空间。
+      p42 IPC基础概念介绍
+          包含三个方面的内容：Serializable接口、Parcelable接口、Binder
+          Serializable接口、Parcelable接口可以完成对象的序列化过程，序列化 (Serialization)将对象的状态信息转换为可以存储或传输的形式的过程。
+      p46 系统为我们提供了许多实现了Parcelable接口的类，它们都是可以直接序列化的，比如Intent、Bundle、Bitmap等。
+      P47 Serializable是Java中的序列化接口，使用简单但开销大，需要大量的I/O操作；
+          Parcelable是Android中的序列化方式，因此更适合用在安卓平台上。
+      p47 Binder主要用在Service中，包括AIDL（Android Interface Definition Language,即Android接口定义语言）和Messenger，
+          其中普通Service中的Binder不涉及进程间通信。    
+      p61 Android中的IPC方式
+          a.使用Bundle
+            在Bundle中附加我们需要的传输给远程进程的信息并通过Intent发送出去，这里传输的数据必须能够被序列化。
+          b.使用文件共享
+            通过sd卡中的一个共享文件进行对象的序列化和反序列化的存储和读取。
+            SharedPreferences是Android中提供的轻量级存储方案，在底层实现上他采用xml文件来储存键值对，由于系统对它的读写有一定的缓存策略，
+            即在内存中会有一份SharedPreferences文件的缓存，因此在多进程模式下，系统对它的读写就变得不可靠了，有大几率会丢失数据，不建议在
+            进程间通信中使用SharedPreferences。
+          c.使用Messenger
+            是一种轻量级的IPC方案，它的底层实现是AIDL，发消息的类型为Message对象。
+          d.使用AIDL P71 还没看完
+            要创建aidl文件，其中包括接口和方法。
+          e.使用ContentProvider
+            是Android中提供的专门用于不同应用间进行数据共享的方式。
