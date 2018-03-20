@@ -1,7 +1,7 @@
 在GitHub上传图片的方法：
 1.先将本地的图片upload files到这个文件夹中，
 2.创建后缀为md的文件，在其中加图片的路径即可
-例：![image](https://github.com/weifengqiu/android-creating-assistant/blob/master/Picture%20Floder/a.jpeg)
+例：![image](https://github.com/weifengqiu/android-creating-assistant/blob/master/Picture%20Folder/a.jpeg?raw=true)
 
 
 GitHubDeskTop的使用方法：
